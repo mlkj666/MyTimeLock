@@ -1,18 +1,12 @@
 name: Build iOS Dylib
-
 on: [push]
-
 jobs:
   build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Compile Dylib
-        run: |
-          isysroot=$(xcrun -sdk iphoneos --show-sdk-path)
-          clang -dynamiclib -arch arm64 -isysroot $isysroot TimeLock.m -o TimeLock.dylib -framework Foundation -framework UIKit
-          
+        run: clang -dynamiclib -arch arm64 -isysroot $(xcrun -sdk iphoneos --show-sdk-path) TimeLock.m -o TimeLock.dylib -framework Foundation -framework UIKit
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
